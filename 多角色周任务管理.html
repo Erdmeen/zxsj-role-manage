@@ -1255,16 +1255,8 @@
       </div>
 
       <div class="role-section" v-if="roles.length > 0">
-        <button
-          class="mobile-nav-toggle"
-          @click="toggleRoleList"
-          v-if="isMobileView"
-        >
-          {{ roleListCollapsed ? '显示角色列表' : '隐藏角色列表' }}
-        </button>
         <div
           class="role-list module-container role-module"
-          :class="{ 'collapsed': roleListCollapsed && isMobileView }"
         >
           <h3 class="module-title">角色列表</h3>
           <div class="silver-summary" v-if="roles.length > 0">
@@ -1863,8 +1855,6 @@
             silver: 0,
           });
           const newTask = ref({ name: "" });
-          const isMobileView = ref(false);
-          const roleListCollapsed = ref(false);
           const silverEditValue = ref(0);
 
           // 职业列表
@@ -2149,11 +2139,6 @@
                 task.selected = false;
               });
             });
-
-            // 在移动端选择角色后自动收起角色列表
-            if (isMobileView.value) {
-              roleListCollapsed.value = true;
-            }
           };
 
           const deleteRole = () => {
@@ -2630,16 +2615,6 @@
             showEditRoleForm.value = false;
           };
 
-          // 移动端视图检测
-          const checkMobileView = () => {
-            isMobileView.value = window.innerWidth <= 768;
-          };
-
-          // 切换角色列表显示/隐藏
-          const toggleRoleList = () => {
-            roleListCollapsed.value = !roleListCollapsed.value;
-          };
-
           // 添加更新银两的方法
           const updateSilver = () => {
             if (currentRole.value) {
@@ -2652,10 +2627,6 @@
           onMounted(() => {
             loadData();
             checkResetDay();
-
-            // 检测移动端视图
-            checkMobileView();
-            window.addEventListener("resize", checkMobileView);
 
             // 每天检查一次是否需要重置
             setInterval(checkResetDay, 1000 * 60 * 60); // 每小时检查一次
@@ -2734,9 +2705,6 @@
             getOriginalIndex,
             professions,
             getProfessionClass,
-            isMobileView,
-            roleListCollapsed,
-            toggleRoleList,
             openAddRoleForm,
             cancelAddRoleForm,
             calculateTotalSilver,
