@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
-    <title>多角色周任务管理</title>
+    <title>诛仙世界角色周任务记录</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <style>
       /* 基础样式 */
@@ -25,7 +25,6 @@
       }
 
       body {
-        background-color: #f0f2f5;
         color: rgba(0, 0, 0, 0.85);
         padding: 0;
         font-size: 14px;
@@ -55,7 +54,6 @@
         border: 1px solid transparent;
         border-radius: 2px;
         cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
         font-size: 14px;
         font-weight: 500;
         text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
@@ -74,37 +72,8 @@
       }
 
       .btn:hover {
-        background: #40a9ff;
         transform: translateY(-1px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      }
-
-      .btn-danger {
-        background: #ff4d4f;
-        border-color: #ff4d4f;
-      }
-
-      .btn-danger:hover {
-        background: #ff7875;
-        border-color: #ff7875;
-      }
-
-      /* 文本按钮样式 */
-      .btn-text {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        color: #666;
-        background: transparent;
-        border: none;
-        padding: 4px 8px;
-        cursor: pointer;
-        transition: all 0.3s;
-      }
-
-      .btn-text:hover {
-        color: #1890ff;
-        background: rgba(24, 144, 255, 0.1);
       }
 
       /* 编辑按钮样式 */
@@ -113,9 +82,14 @@
         border-color: #1890ff;
       }
 
-      .btn-edit:hover {
-        background: #40a9ff;
-        border-color: #40a9ff;
+      .btn-success {
+        background: #52c41a;
+        border-color: #52c41a;
+      }
+
+      .btn-danger {
+        background: #ff4d4f;
+        border-color: #ff4d4f;
       }
 
       /* 小型按钮样式 */
@@ -129,29 +103,6 @@
         transition: all 0.3s;
       }
 
-      .category-header .btn-sm:hover {
-        background: #40a9ff;
-        border-color: #40a9ff;
-        color: #fff;
-
-      }
-
-      /* 银两编辑按钮样式 */
-      .silver-edit-btn {
-        height: 32px;
-        padding: 4px 12px;
-        background: #1890ff;
-        color: #fff;
-        border: none;
-        border-radius: 2px;
-        cursor: pointer;
-        font-size: 14px;
-      }
-
-      .silver-edit-btn:hover {
-        background: #40a9ff;
-      }
-
       /* 卡片布局优化 */
       .module-container {
         border-radius: 2px;
@@ -160,7 +111,7 @@
         transition: all 0.3s;
         border: 1px solid #f0f0f0;
         background: #fff;
-        margin-bottom: 0; /* 移除默认的底部边距 */
+        margin-bottom: 0;
       }
 
       .module-container:hover {
@@ -220,7 +171,8 @@
       }
 
       .role-content .module-container {
-        margin-bottom: 20px; /* 添加底部间距 */
+        margin-bottom: 20px;
+        /* 添加底部间距 */
       }
 
       .role-header {
@@ -262,7 +214,6 @@
         white-space: normal;
         word-wrap: break-word;
         word-break: break-all;
-        /* padding: 2px 8px; */
         max-width: 100%;
         width: 100%;
         margin-top: 4px;
@@ -464,28 +415,6 @@
         font-size: 12px;
       }
 
-      .task-actions .btn-edit {
-        background: #1890ff;
-        border-color: #1890ff;
-        color: #fff;
-      }
-
-      .task-actions .btn-edit:hover {
-        background: #40a9ff;
-        border-color: #40a9ff;
-      }
-
-      .task-actions .btn-danger {
-        background: #ff4d4f;
-        border-color: #ff4d4f;
-        color: #fff;
-      }
-
-      .task-actions .btn-danger:hover {
-        background: #ff7875;
-        border-color: #ff7875;
-      }
-
       /* 空状态样式 */
       .empty-state {
         text-align: center;
@@ -519,152 +448,6 @@
         background: #fff;
       }
 
-      /* 移动端优化 */
-      @media (max-width: 768px) {
-        .role-section {
-          flex-direction: column;
-          height: auto;
-          margin-top: 8px;
-        }
-
-        .role-list.module-container {
-          width: 100%;
-          max-height: 200px;
-        }
-
-        .role-content {
-          height: auto;
-        }
-
-        .mobile-nav-toggle {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .role-header {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 12px;
-        }
-
-        .role-header-buttons {
-          width: 100%;
-          justify-content: space-between;
-        }
-
-        .task-item {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 8px;
-        }
-
-        .task-actions {
-          width: 100%;
-          justify-content: flex-end;
-        }
-      }
-
-      /* 小屏幕设备优化 */
-      @media (max-width: 480px) {
-        .container {
-          padding: 5px;
-        }
-
-        .module-container {
-          padding: 10px;
-        }
-
-        .task-item {
-          padding: 6px 8px;
-          margin-bottom: 6px;
-        }
-
-        .role-item {
-          padding: 8px 10px;
-        }
-
-        .profession-selection {
-          justify-content: center;
-        }
-
-        .task-type-tag {
-          min-width: 40px;
-          font-size: 11px;
-          padding: 1px 4px;
-        }
-
-        .task-category {
-          padding: 8px;
-        }
-
-        .category-items {
-          padding: 5px;
-          max-height: 120px;
-        }
-
-        .predefined-task-item {
-          padding: 4px 6px;
-          height: 32px;
-          margin-bottom: 5px;
-        }
-
-        .dungeon-task-item {
-          padding: 4px 6px;
-          margin-bottom: 4px;
-          font-size: 12px;
-        }
-
-        .dungeon-group {
-          padding: 5px;
-          margin-bottom: 8px;
-        }
-
-        .dungeon-group-header {
-          margin-bottom: 5px;
-          padding-bottom: 3px;
-        }
-
-        .role-name {
-          font-size: 14px;
-        }
-
-        .active .role-name {
-          font-size: 15px;
-        }
-
-        .role-progress-value {
-          font-size: 11px;
-          min-width: 25px;
-        }
-
-        .progress-bar {
-          height: 5px;
-        }
-
-        h1 {
-          font-size: 18px;
-        }
-
-        .reset-info {
-          font-size: 12px;
-          padding: 8px 10px;
-        }
-
-        .reset-info p {
-          margin: 2px 0;
-        }
-
-        .task-form-module h3.module-title {
-          font-size: 14px;
-          max-width: 50%;
-        }
-
-        .task-form-module > div:first-child {
-          margin-bottom: 10px;
-        }
-      }
-
       /* 银两显示样式优化 */
       .silver-display {
         display: flex;
@@ -695,6 +478,7 @@
         color: rgba(0, 0, 0, 0.45);
         margin-left: 2px;
       }
+
       /* 银两编辑容器样式 */
       .silver-edit-container {
         display: flex;
@@ -709,21 +493,6 @@
         border: 1px solid #d9d9d9;
         border-radius: 2px;
         font-size: 14px;
-      }
-
-      .silver-edit-btn {
-        height: 32px;
-        padding: 4px 12px;
-        background: #1890ff;
-        color: #fff;
-        border: none;
-        border-radius: 2px;
-        cursor: pointer;
-        font-size: 14px;
-      }
-
-      .silver-edit-btn:hover {
-        background: #40a9ff;
       }
 
       /* 角色列表中的银两显示 */
@@ -784,8 +553,10 @@
       }
 
       .progress-value.completed {
-        background-color: #52c41a; /* 使用绿色表示完成 */
-        box-shadow: 0 0 8px rgba(82, 196, 26, 0.5); /* 添加发光效果 */
+        background-color: #52c41a;
+        /* 使用绿色表示完成 */
+        box-shadow: 0 0 8px rgba(82, 196, 26, 0.5);
+        /* 添加发光效果 */
       }
 
       .role-progress-value {
@@ -960,12 +731,6 @@
         flex: 1;
       }
 
-      @media (max-width: 768px) {
-        .role-form-container {
-          flex-direction: column;
-        }
-      }
-
       /* 表单标签和输入框左右布局 */
       .form-group-horizontal {
         display: flex;
@@ -983,19 +748,6 @@
 
       .form-group-horizontal .form-control-wrapper {
         flex: 1;
-      }
-
-      @media (max-width: 768px) {
-        .form-group-horizontal {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-
-        .form-group-horizontal label {
-          width: 100%;
-          margin-bottom: 8px;
-          margin-right: 0;
-        }
       }
 
       .role-info-container {
@@ -1088,7 +840,8 @@
         max-height: 180px;
         overflow-y: auto;
         border-radius: 2px;
-        flex: 1; /* 让内容区域自适应填充剩余空间 */
+        flex: 1;
+        /* 让内容区域自适应填充剩余空间 */
       }
 
       /* 滚动条样式优化 */
@@ -1108,19 +861,6 @@
 
       .task-categories::-webkit-scrollbar-thumb:hover {
         background: #555;
-      }
-
-      /* 移动端适配 */
-      @media (max-width: 768px) {
-        .task-categories {
-          grid-template-columns: repeat(2, 1fr);
-        }
-      }
-
-      @media (max-width: 480px) {
-        .task-categories {
-          grid-template-columns: 1fr;
-        }
       }
 
       .category-header {
@@ -1264,22 +1004,6 @@
         margin-bottom: 0;
       }
 
-      @media (max-width: 768px) {
-        .role-section {
-          flex-direction: column;
-          height: auto;
-        }
-
-        .role-list.module-container {
-          width: 100%;
-          max-height: 200px;
-        }
-
-        .role-content {
-          height: calc(100vh - 300px);
-        }
-      }
-
       .role-header.module-container {
         flex-shrink: 0;
       }
@@ -1287,7 +1011,8 @@
       .task-list.module-container {
         flex: 1;
         overflow-y: auto;
-        display: block; /* 修改这里，默认显示 */
+        display: block;
+        /* 修改这里，默认显示 */
         margin-bottom: 0;
       }
 
@@ -1318,9 +1043,9 @@
 
       .task-form-module {
         flex: 1;
-    overflow-y: auto;
-    display: block;
-    margin-bottom: 0;
+        overflow-y: auto;
+        display: block;
+        margin-bottom: 0;
       }
 
       /* 当显示任务列表时 */
@@ -1366,20 +1091,6 @@
         margin-bottom: 16px;
       }
 
-      @media (max-width: 768px) {
-        .fixed-tasks .task-categories,
-        .fixed-tasks .category-items {
-          grid-template-columns: repeat(2, 1fr);
-        }
-      }
-
-      @media (max-width: 480px) {
-        .fixed-tasks .task-categories,
-        .fixed-tasks .category-items {
-          grid-template-columns: 1fr;
-        }
-      }
-
       .silver-summary {
         display: flex;
         align-items: center;
@@ -1405,43 +1116,6 @@
         padding-right: 10px;
       }
 
-      .btn-text {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        color: #666;
-        background: transparent;
-        border: none;
-        padding: 4px 8px;
-        cursor: pointer;
-        transition: all 0.3s;
-      }
-
-      .btn-text:hover {
-        color: #1890ff;
-        background: rgba(24, 144, 255, 0.1);
-      }
-
-      .btn-success {
-        color: #fff;
-        background: #52c41a;
-      }
-
-      .btn-success:hover {
-        color: #fff;
-        background: #52c41a;
-      }
-
-      .btn-danger {
-        color: #fff;
-        border-color: #ff4d4f;
-      }
-
-      .btn-danger:hover {
-        color: #fff;
-        background: #ff4d4f;
-      }
-
       .role-info-right {
         display: flex;
         flex-direction: column;
@@ -1455,6 +1129,7 @@
         flex-direction: column;
         gap: 8px;
       }
+
       .role-info-left .role-name-container {
         min-height: 36px;
         height: auto;
@@ -1475,26 +1150,6 @@
         gap: 8px;
       }
 
-      /* 移动端适配 */
-      @media (max-width: 768px) {
-        .role-info {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 16px;
-          padding: 16px;
-        }
-
-        .role-info-right {
-          width: 100%;
-        }
-
-        .role-header-buttons,
-        .role-task-buttons {
-          width: 100%;
-          justify-content: flex-end;
-        }
-      }
-
       .module-header {
         display: flex;
         justify-content: space-between;
@@ -1513,14 +1168,14 @@
         align-items: center;
         gap: 8px;
       }
-
     </style>
   </head>
+
   <body>
     <div id="app" class="container">
       <div class="title-container">
         <div class="title-left">
-          <h1>诛仙世界角色周任务记录</h1>
+          <h1>角色周任务记录</h1>
         </div>
         <div class="title-right">
           <div class="reset-info">
@@ -1534,6 +1189,9 @@
           </div>
           <button class="btn" @click="openAddRoleForm" v-if="!showAddRoleForm">
             添加角色
+          </button>
+          <button class="btn btn-danger" @click="cancelAddRoleForm" v-if="showAddRoleForm">
+            取消添加
           </button>
         </div>
       </div>
@@ -1593,9 +1251,6 @@
         </div>
         <div class="form-group form-buttons">
           <button class="btn" @click="addRole">保存角色</button>
-          <button class="btn btn-danger" @click="cancelAddRoleForm">
-            取消
-          </button>
         </div>
       </div>
 
@@ -1718,9 +1373,7 @@
                       @keyup.enter="updateSilver"
                     />
                     <span class="silver-unit">万两</span>
-                    <button class="silver-edit-btn" @click="updateSilver">
-                      更新
-                    </button>
+                    <button class="btn" @click="updateSilver">更新</button>
                   </div>
                 </div>
               </div>
@@ -1728,8 +1381,11 @@
 
             <div class="role-info-right">
               <div class="role-header-buttons">
-                <button class="btn btn-edit" @click="editRole">编辑角色</button>
-                <button class="btn btn-danger" @click="deleteRole">删除角色</button>
+                <button v-if="!showEditRoleForm" class="btn btn-edit" @click="editRole">编辑角色</button>
+                <button v-else class="btn btn-danger" @click="cancelEditRole">取消编辑</button>
+                <button class="btn btn-danger" @click="deleteRole">
+                  删除角色
+                </button>
               </div>
             </div>
           </div>
@@ -1791,9 +1447,6 @@
               <button class="btn btn-success" @click="saveEditedRole">
                 保存修改
               </button>
-              <button class="btn btn-danger" @click="cancelEditRole">
-                取消
-              </button>
             </div>
           </div>
 
@@ -1802,17 +1455,17 @@
             class="form-group module-container task-form-module"
           >
             <div class="module-header">
-                <div class="module-header-left">
-                  <h3 class="module-title">
-                    {{ currentRole.tasks.length === 0 ? '添加任务' : '编辑任务' }}
-                  </h3>
-                </div>
-                <div class="module-header-right">
-                  <button class="btn btn-danger" @click="showAddTaskForm = false">
-                    取消
-                  </button>
-                </div>
+              <div class="module-header-left">
+                <h3 class="module-title">
+                  {{ currentRole.tasks.length === 0 ? '添加任务' : '编辑任务' }}
+                </h3>
               </div>
+              <div class="module-header-right">
+                <button class="btn btn-danger" @click="showAddTaskForm = false">
+                  取消
+                </button>
+              </div>
+            </div>
 
             <!-- 固定任务部分 -->
             <div
@@ -2081,7 +1734,9 @@
                 <h3 class="module-title">任务列表</h3>
               </div>
               <div class="module-header-right">
-                <button class="btn btn-edit" @click="openAddTaskForm">编辑任务</button>
+                <button class="btn btn-edit" @click="openAddTaskForm">
+                  编辑任务
+                </button>
               </div>
             </div>
             <div class="task-list-content">
@@ -2166,7 +1821,9 @@
             v-else-if="!showAddTaskForm"
             class="empty-state module-container"
           >
-            <button class="btn btn-edit" @click="openAddTaskForm">添加任务</button>
+            <button class="btn btn-edit" @click="openAddTaskForm">
+              添加任务
+            </button>
           </div>
         </div>
 
@@ -3006,7 +2663,6 @@
             // 确保默认选中第一个角色并初始化银两值
             if (roles.value.length > 0) {
               currentRoleIndex.value = 0;
-              silverEditValue.value = roles.value[0].silver || 0;
             }
           });
 
@@ -3090,5 +2746,3 @@
     </script>
   </body>
 </html>
-
-
