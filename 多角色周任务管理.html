@@ -16,6 +16,10 @@
         box-sizing: border-box;
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
           "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
       }
 
       html,
@@ -31,10 +35,12 @@
         line-height: 1.5715;
         display: flex;
         flex-direction: column;
+        overflow-x: auto;
       }
 
       .container {
         width: 100%;
+        min-width: 900px;
         margin: 0 auto;
         background-color: #fff;
         border-radius: 2px;
@@ -43,7 +49,7 @@
         height: 100%;
         display: flex;
         flex-direction: column;
-        overflow: hidden;
+        overflow: auto;
         gap: 5px;
       }
 
@@ -500,6 +506,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        height: 24px;
       }
 
       .role-item .silver-icon {
@@ -1168,11 +1175,34 @@
         align-items: center;
         gap: 8px;
       }
+
+      /* 允许输入框和文本域可以复制 */
+      input, textarea {
+        -webkit-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
+      }
+
     </style>
   </head>
 
   <body>
     <div id="app" class="container">
+      <script>
+        // 禁止右键菜单
+        document.addEventListener('contextmenu', function(e) {
+          e.preventDefault();
+        });
+
+        // 禁止键盘快捷键
+        document.addEventListener('keydown', function(e) {
+          // 禁止 Ctrl+C, Ctrl+V, Ctrl+X
+          if (e.ctrlKey && (e.key === 'c' || e.key === 'v' || e.key === 'x')) {
+            e.preventDefault();
+          }
+        });
+      </script>
       <div class="title-container">
         <div class="title-left">
           <h1>角色周任务记录</h1>
@@ -2005,7 +2035,26 @@
               }
 
               // 然后按照分类顺序排序
-              return categoryOrder[a.category] - categoryOrder[b.category];
+              if (a.category !== b.category) {
+                return categoryOrder[a.category] - categoryOrder[b.category];
+              }
+
+              // 如果是副本任务，按照人数和难度排序
+              if (a.category === 'dungeon' && b.category === 'dungeon') {
+                // 首先按人数排序
+                if (a.originalTask.size !== b.originalTask.size) {
+                  return a.originalTask.size - b.originalTask.size;
+                }
+                // 人数相同时，按难度排序（困难在前，噩梦在后）
+                if (a.originalTask.difficulty !== b.originalTask.difficulty) {
+                  return a.originalTask.difficulty === 'hard' ? -1 : 1;
+                }
+                // 难度相同时，按名称排序
+                return a.name.localeCompare(b.name);
+              }
+
+              // 其他类型的任务按名称排序
+              return a.name.localeCompare(b.name);
             });
           });
 
@@ -2550,19 +2599,22 @@
           const checkResetDay = () => {
             const now = new Date();
             const dayOfWeek = now.getDay();
+            const hours = now.getHours();
 
-            // 检查是否是周三
-            if (dayOfWeek === 3) {
+            // 检查是否是周三早上8点
+            if (dayOfWeek === 3 && hours >= 8) {
               const lastResetDate = localStorage.getItem("lastResetDate");
-              const today = now.toDateString();
+              const today = now.toISOString().split('T')[0];
 
               // 如果今天还没有重置
               if (lastResetDate !== today) {
                 // 重置所有任务
                 roles.value.forEach((role) => {
-                  role.tasks.forEach((task) => {
-                    task.completed = false;
-                  });
+                  if (role.tasks) {
+                    role.tasks.forEach((task) => {
+                      task.completed = false;
+                    });
+                  }
                 });
 
                 // 保存重置日期
@@ -2627,14 +2679,8 @@
           onMounted(() => {
             loadData();
             checkResetDay();
-
-            // 每天检查一次是否需要重置
-            setInterval(checkResetDay, 1000 * 60 * 60); // 每小时检查一次
-
-            // 确保默认选中第一个角色并初始化银两值
-            if (roles.value.length > 0) {
-              currentRoleIndex.value = 0;
-            }
+            // 每小时检查一次是否需要重置
+            setInterval(checkResetDay, 60 * 60 * 1000);
           });
 
           // 监听数据变化
