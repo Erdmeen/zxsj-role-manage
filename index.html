@@ -593,14 +593,25 @@
 
       .title-left {
         display: flex;
-        align-items: center;
+        flex-direction: column;
+        gap: 8px;
+        /* flex-shrink: 0; */
       }
 
       .title-left h1 {
-        font-size: 20px;
+        font-size: 24px;
         margin: 0;
         color: rgba(0, 0, 0, 0.85);
-        font-weight: 500;
+        font-weight: 600;
+        line-height: 1.4;
+      }
+
+      .title-left p {
+        margin: 0;
+        font-size: 13px;
+        color: rgba(0, 0, 0, 0.45);
+        line-height: 1.6;
+        max-width: 580px;
       }
 
       .title-right {
@@ -1207,6 +1218,9 @@
       <div class="title-container">
         <div class="title-left">
           <h1>诛仙世界角色周任务记录</h1>
+          <p>
+            说明：数据存储在本地浏览器中，清空浏览器数据时会丢失，请自行导出备份。
+          </p>
         </div>
         <div class="title-right">
           <div class="reset-info">
