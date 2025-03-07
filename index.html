@@ -41,7 +41,6 @@
       .container {
         width: 100%;
         min-width: 1157px;
-        max-width: 1653px;
         margin: 0 auto;
         background-color: #fff;
         border-radius: 2px;
@@ -113,7 +112,7 @@
       /* 卡片布局优化 */
       .module-container {
         border-radius: 2px;
-        padding: 20px;
+        padding: 16px;
         box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
         transition: all 0.3s;
         border: 1px solid #f0f0f0;
@@ -126,22 +125,12 @@
           0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
       }
 
-      .role-list.module-container {
-        width: 300px;
-        overflow-y: auto;
-        flex-shrink: 0;
-        background: #fff;
-        border: 1px solid #f0f0f0;
-        border-radius: 2px;
-        padding: 20px;
-        margin: 0;
-      }
-
       .role-list .module-title {
-        margin-bottom: 20px;
         font-size: 16px;
         color: rgba(0, 0, 0, 0.85);
         font-weight: 500;
+        line-height: 24px;
+        height: 24px;
       }
 
       .role-item {
@@ -187,7 +176,6 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 24px;
-        padding: 20px;
         border-bottom: 1px solid #f0f0f0;
         background-color: #fafafa;
       }
@@ -202,7 +190,7 @@
         align-items: center;
         flex-wrap: wrap;
         gap: 8px;
-        justify-content: flex-start;
+        justify-content: space-between;
       }
 
       .role-name {
@@ -320,33 +308,40 @@
 
       /* 副本任务 */
       .task-type-tag.dungeon {
-        background-color: #722ed1;
+        background-color: #ff4d4f;
       }
 
       /* 帮派任务 */
       .task-type-tag.guild {
-        background-color: #13c2c2;
+        background-color: #fa8c16;
       }
 
       /* 世界任务 */
       .task-type-tag.world {
-        background-color: #1890ff;
+        background-color: #efe409;
       }
 
       /* 其他任务 */
       .task-type-tag.other {
-        background-color: #fa8c16;
+        background-color: #52c41a;
       }
 
       /* 活力任务 */
       .task-type-tag.vitality {
-        background-color: #52c41a;
+        background-color: #00c1ab;
+      }
+
+      /* 活动任务 */
+      .task-type-tag.activity {
+        background-color: #1890ff;
       }
 
       /* 自定义任务 */
       .task-type-tag.custom {
-        background-color: #f759ab;
+        background-color: #722ed1;
       }
+
+      
 
       .task-item {
         display: flex;
@@ -533,11 +528,10 @@
 
       /* 进度条样式优化 */
       .role-progress-container {
-        margin-top: 6px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 12px;
+        height: 24px;
       }
 
       .role-progress-bar {
@@ -585,17 +579,12 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 20px;
-        background: #fff;
-        border: 1px solid #f0f0f0;
-        border-radius: 2px;
       }
 
       .title-left {
         display: flex;
         flex-direction: column;
         gap: 8px;
-        /* flex-shrink: 0; */
       }
 
       .title-left h1 {
@@ -815,25 +804,23 @@
       h3 {
         font-size: 16px;
         line-height: 24px;
-        margin-bottom: 16px;
       }
 
       h4 {
         font-size: 14px;
         line-height: 22px;
-        margin-bottom: 12px;
       }
 
       .module-title {
         font-size: 16px;
-        line-height: 24px;
-        margin-bottom: 16px;
+        line-height: 36px;
         color: rgba(0, 0, 0, 0.85);
         font-weight: 500;
+        height: 36px;
       }
 
       .category-header h4.module-title {
-        margin-bottom: 12px;
+        margin-bottom: 10px;
       }
 
       /* 任务类别样式 */
@@ -857,10 +844,10 @@
 
       .category-items {
         max-height: 180px;
+        min-height: 180px;
         overflow-y: auto;
         border-radius: 2px;
         flex: 1;
-        /* 让内容区域自适应填充剩余空间 */
       }
 
       /* 滚动条样式优化 */
@@ -1153,7 +1140,6 @@
         min-height: 36px;
         height: auto;
         display: flex;
-        align-items: flex-start;
         flex-wrap: wrap;
         gap: 8px;
       }
@@ -1173,7 +1159,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
       }
 
       .module-header-left {
@@ -1215,7 +1201,7 @@
           }
         });
       </script>
-      <div class="title-container">
+      <div class="title-container module-container">
         <div class="title-left">
           <h1>诛仙世界角色周任务记录</h1>
           <p>
@@ -1304,7 +1290,9 @@
         <div
           class="role-list module-container role-module"
         >
-          <h3 class="module-title">角色列表</h3>
+          <div class="module-header">
+            <h3 class="module-title">角色列表</h3>
+          </div>
           <div class="silver-summary" v-if="roles.length > 0">
             <span class="silver-icon">💰总资产</span>
             <div class="silver-amount-total">
@@ -1321,12 +1309,6 @@
             <div class="role-name-container">
               <h2
                 class="module-title"
-                style="
-                  margin: 0;
-                  margin-right: 10px;
-                  padding-bottom: 0;
-                  border-bottom: none;
-                "
               >
                 {{ role.name }}
               </h2>
@@ -1373,12 +1355,6 @@
               <div class="role-name-container">
                 <h2
                   class="module-title"
-                  style="
-                    margin: 0;
-                    margin-right: 10px;
-                    padding-bottom: 0;
-                    border-bottom: none;
-                  "
                 >
                   {{ currentRole.name }}
                 </h2>
@@ -1511,7 +1487,16 @@
               v-if="!isEditingTask || (isEditingTask && newTask.category === 'custom')"
             >
               <div class="module-container category-module">
-                <h4 class="module-title">固定任务</h4>
+                <div class="module-header">
+                  <div class="module-header-left">
+                    <h4 class="module-title">固定任务</h4>
+                  </div>
+                  <div class="module-header-right">
+                    <button class="btn" @click="addSelectedTasks">
+                      添加固定任务
+                    </button>
+                  </div>
+                </div>
 
                 <div class="task-categories">
                   <div class="task-category module-container category-module">
@@ -1731,19 +1716,36 @@
                       </div>
                     </div>
                   </div>
+
+                  <div class="task-category module-container category-module">
+                    <div class="category-header">
+                      <h4 class="module-title">限时</h4>
+                      <button class="btn-sm" @click="selectAllInCategory('activity')">全选</button>
+                    </div>
+                    <div class="category-items">
+                      <div v-for="(task, index) in predefinedTasks.activity" :key="'activity-'+index" class="dungeon-task-item" @click="task.selected = !task.selected">
+                        <input type="checkbox" :id="'activity-'+index" v-model="task.selected" @click.stop />
+                        <div class="dungeon-task-content">
+                          <span>{{ task.name }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
-                <div class="form-group" style="margin-top: 15px">
-                  <button class="btn" @click="addSelectedTasks">
-                    添加固定任务
-                  </button>
-                </div>
               </div>
             </div>
 
             <!-- 自定义任务部分 -->
             <div class="form-group module-container category-module">
-              <h4 class="module-title">自定义任务</h4>
+              <div class="module-header">
+                <div class="module-header-left">  
+                  <h4 class="module-title">自定义任务</h4>
+                </div>
+                <div class="module-header-right">
+                  <button class="btn" @click="addTask">添加自定义任务</button>
+                </div>
+              </div>
               <div class="form-group-horizontal">
                 <label for="taskName">任务名称</label>
                 <div class="form-control-wrapper">
@@ -1756,9 +1758,6 @@
                     maxlength="30"
                   />
                 </div>
-              </div>
-              <div class="form-group form-buttons">
-                <button class="btn" @click="addTask">添加自定义任务</button>
               </div>
             </div>
           </div>
@@ -2020,6 +2019,9 @@
               { name: "挖矿", selected: false },
               { name: "采摘", selected: false },
             ],
+            activity: [
+              { name: "植树节活动", selected: false },
+            ],
           });
 
           // 计算属性
@@ -2044,7 +2046,8 @@
               world: 3,
               other: 4,
               vitality: 5,
-              custom: 6,
+              activity: 6,
+              custom: 7,
             };
 
             return [...currentRole.value.tasks].sort((a, b) => {
@@ -2600,6 +2603,7 @@
               world: "世界",
               other: "其他",
               vitality: "活力",
+              activity: "限时",
             };
             return categoryMap[category] || category;
           };
