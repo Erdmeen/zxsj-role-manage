@@ -1,0 +1,39 @@
+# Node.js 相关
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+package-lock.json
+yarn.lock
+
+# 环境配置文件
+.env
+.env.local
+.env.*.local
+
+# 日志文件
+logs/
+*.log
+
+# 运行时数据
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# 依赖目录
+.npm
+.yarn
+.pnp
+.pnp.js
+
+# IDE 配置文件
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# 数据库文件
+*.sqlite
+database.sqlite
