@@ -2037,7 +2037,7 @@
             }
 
             try {
-              const response = await fetch('http://localhost:3000/api/auth/login', {
+              const response = await fetch('/api/auth/login', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
@@ -2065,7 +2065,7 @@
               await loadData();
               // 登录成功后立即同步当前数据到服务器（不使用防抖）
               if (roles.value.length > 0) {
-                await fetch('http://localhost:3000/api/data/sync', {
+                await fetch('/api/data/sync', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
@@ -2354,7 +2354,7 @@
           const loadData = async () => {
             if (isLoggedIn.value) {
               try {
-                const response = await fetch('http://localhost:3000/api/data/sync', {
+                const response = await fetch('/api/data/sync', {
                   headers: {
                     'Authorization': `Bearer ${token.value}`
                   }
@@ -2395,7 +2395,7 @@
           const syncDataToServer = debounce(async () => {
             if (isLoggedIn.value) {
               try {
-                const response = await fetch('http://localhost:3000/api/data/sync', {
+                const response = await fetch('/api/data/sync', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',
