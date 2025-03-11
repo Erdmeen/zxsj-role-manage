@@ -1233,39 +1233,47 @@
 
       .login-form-item {
         display: flex;
-        flex-direction: column;
+        align-items: center;
         gap: 8px;
       }
 
       .login-form-item label {
         font-size: 14px;
+        width: 60px;
         color: rgba(0, 0, 0, 0.85);
-      }
-
-      .login-form-item input {
-        height: 40px;
-        padding: 8px 12px;
-        border: 1px solid #d9d9d9;
-        border-radius: 2px;
-        font-size: 14px;
-        transition: all 0.3s;
-      }
-
-      .login-form-item input:focus {
-        border-color: #40a9ff;
-        box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
-        outline: none;
+        flex-shrink: 0;
       }
 
       .login-form-actions {
         display: flex;
         justify-content: space-between;
         gap: 16px;
-        margin-top: 24px;
       }
 
       .login-form-actions button {
         flex: 1;
+      }
+
+      /* 登录提示样式 */
+      .login-tips {
+        padding: 12px;
+        background: #f5f5f5;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+
+      .login-tip-item {
+        margin-bottom: 8px;
+        color: #333;
+        line-height: 1.5;
+      }
+
+      .login-tip-item:last-child {
+        margin-bottom: 0;
+      }
+
+      .tip-text {
+        color: #333;
       }
     </style>
     <script>
@@ -1289,15 +1297,13 @@
       <!-- 登录对话框 -->
       <div class="login-modal" v-if="showLoginModal">
         <div class="login-container">
-          <div class="login-header">
-            <h2>登录</h2>
-          </div>
           <div class="login-form">
             <div class="login-form-item">
               <label for="username">用户名</label>
               <input
                 type="text"
                 id="username"
+                class="form-control"
                 v-model="loginForm.username"
                 placeholder="请输入用户名"
                 @keyup.enter="handleLogin"
@@ -1308,6 +1314,7 @@
               <input
                 type="password"
                 id="password"
+                class="form-control"
                 v-model="loginForm.password"
                 placeholder="请输入密码"
                 @keyup.enter="handleLogin"
@@ -1317,6 +1324,16 @@
               <button class="btn btn-danger" @click="showLoginModal = false">取消</button>
               <button class="btn" @click="handleLogin">登录</button>
             </div>
+            <!-- tips-->
+            
+           <div class="login-tips">
+             <div class="login-tip-item">
+               <span class="tip-text">1. 登录后会将数据同步存储在服务器</span>
+             </div>
+             <div class="login-tip-item">
+               <span class="tip-text">2. 如需该功能，请联系哈根达斯开通</span>
+             </div>
+           </div>
           </div>
         </div>
       </div>
@@ -1324,7 +1341,7 @@
         <div class="title-left">
           <h1>诛仙世界角色周任务记录</h1>
           <p>
-            说明：数据存储在浏览器缓存中，清除浏览器缓存会导致数据丢失，请自行导出备份。
+            说明：数据存储在浏览器缓存中，清除缓存等操作会导致数据丢失，请自行导出备份。
           </p>
         </div>
         <div class="title-right">
@@ -2062,7 +2079,7 @@
               loginForm.value = { username: '', password: '' };
               
               // 登录成功后立即从服务器获取数据
-              await loadData();
+              await loadData(false);
               // 登录成功后立即同步当前数据到服务器（不使用防抖）
               if (roles.value.length > 0) {
                 await fetch('/api/data/sync', {
@@ -2351,7 +2368,7 @@
           };
 
           // 方法
-          const loadData = async () => {
+          const loadData = async (isUpdateNoData = true) => {
             if (isLoggedIn.value) {
               try {
                 const response = await fetch('/api/data/sync', {
@@ -2362,9 +2379,11 @@
                 const data = await response.json();
                 
                 if (response.ok) {
+
+                  if (!isUpdateNoData && data.roles.length === 0) return;
+
                   // 更新内存中的数据
                   roles.value = data.roles || [];
-                  
                   localStorage.setItem('roleTaskManager', JSON.stringify(data.roles || []));
                   
                   // 更新当前选中的角色
