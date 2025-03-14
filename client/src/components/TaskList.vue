@@ -191,11 +191,11 @@ const getOriginalIndex = (task: Task) => {
 const getCategoryText = (category: string) => {
   const categories: { [key: string]: string } = {
     dungeon: '副本',
-    guild: '帮会',
+    guild: '帮派',
     world: '世界',
     other: '其他',
     vitality: '活力',
-    activity: '活动',
+    activity: '限时',
     custom: '自定义',
   };
   return categories[category] || category;
