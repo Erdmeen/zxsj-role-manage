@@ -1,0 +1,1250 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+html,
+body,
+#app,
+.app-container {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  color: rgba(0, 0, 0, 0.85);
+  padding: 0;
+  font-size: 14px;
+  line-height: 1.5715;
+  display: flex;
+  flex-direction: column;
+  overflow-x: auto;
+}
+
+.container {
+  width: 100%;
+  min-width: 1057px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  padding: 16px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  gap: 5px;
+}
+
+/* 按钮统一样式 */
+.btn {
+  height: 36px;
+  padding: 6px 16px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.045);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #1890ff;
+  color: #fff;
+  margin-right: 12px;
+  min-width: 88px;
+}
+
+.btn:last-child {
+  margin-right: 0;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 编辑按钮样式 */
+.btn-edit {
+  background: #1890ff;
+  border-color: #1890ff;
+}
+
+.btn-success {
+  background: #52c41a;
+  border-color: #52c41a;
+}
+
+.btn-danger {
+  background: #ff4d4f;
+  border-color: #ff4d4f;
+}
+
+/* 小型按钮样式 */
+.category-header .btn-sm {
+  padding: 4px 12px;
+  font-size: 12px;
+  border: 1px solid #1890ff;
+  border-radius: 2px;
+  background: #1890ff;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+/* 卡片布局优化 */
+.module-container {
+  border-radius: 2px;
+  padding: 16px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+  transition: all 0.3s;
+  border: 1px solid #f0f0f0;
+  background: #fff;
+  margin-bottom: 0;
+}
+
+.module-container:hover {
+  box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12),
+    0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+}
+
+.role-list .module-title {
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 500;
+  line-height: 24px;
+  height: 24px;
+}
+
+.role-item {
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.3s;
+  background-color: #fafafa;
+  border: 1px solid #f0f0f0;
+}
+
+.role-item:last-child {
+  margin-bottom: 0;
+}
+
+.role-item:hover {
+  background-color: #f5f5f5;
+  /* transform: translateY(-1px); */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
+}
+
+.role-item.active {
+  background-color: #e6f7ff;
+  border-color: #91d5ff;
+}
+
+.role-content .module-container {
+  margin-bottom: 20px;
+  /* 添加底部间距 */
+}
+
+.role-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #f0f0f0;
+  background-color: #fafafa;
+}
+
+.role-header-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.role-name-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.role-name {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.85);
+  margin: 0;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+/* 标签统一样式 */
+.profession-tag,
+.dungeon-tag,
+.dungeon-size,
+.task-type-tag {
+  display: inline-flex;
+  align-items: center;
+  height: 24px;
+  padding: 2px 8px;
+  font-size: 12px;
+  line-height: 24px;
+  border-radius: 2px;
+  color: #fff;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* 副本标签样式 */
+.dungeon-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 2px;
+  font-size: 12px;
+  margin-left: 8px;
+  color: #fff;
+  line-height: 1.5;
+}
+
+.dungeon-tag.hard {
+  background-color: #1890ff;
+}
+
+.dungeon-tag.nightmare {
+  background-color: #ff4d4f;
+}
+
+/* 副本规模标签样式 */
+.dungeon-size.small {
+  background: #52c41a;
+}
+
+.dungeon-size.medium {
+  background: #1890ff;
+}
+
+.dungeon-size.large {
+  background: #722ed1;
+}
+
+/* 任务类型标签样式 */
+.task-type-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 2px;
+  font-size: 12px;
+  line-height: 20px;
+  color: #fff;
+  margin-right: 8px;
+}
+
+/* 副本任务 */
+.task-type-tag.dungeon {
+  background-color: #ff4d4f;
+}
+
+/* 帮派任务 */
+.task-type-tag.guild {
+  background-color: #fa8c16;
+}
+
+/* 世界任务 */
+.task-type-tag.world {
+  background-color: #efe409;
+}
+
+/* 其他任务 */
+.task-type-tag.other {
+  background-color: #52c41a;
+}
+
+/* 活力任务 */
+.task-type-tag.vitality {
+  background-color: #00c1ab;
+}
+
+/* 活动任务 */
+.task-type-tag.activity {
+  background-color: #1890ff;
+}
+
+/* 自定义任务 */
+.task-type-tag.custom {
+  background-color: #722ed1;
+}
+
+
+
+.task-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 2px;
+  transition: all 0.3s;
+  min-height: 40px;
+  width: 100%;
+}
+
+.task-item:last-child {
+  margin-bottom: 0;
+}
+
+.task-item:hover {
+  background: #fafafa;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
+}
+
+.task-item.completed {
+  background: #f6ffed;
+  border-color: #b7eb8f;
+  opacity: 0.8;
+}
+
+.task-checkbox {
+  margin-right: 12px;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.task-content {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  margin-right: 8px;
+  overflow: hidden;
+}
+
+.task-name {
+  margin: 0 8px;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.task-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.task-item:hover .task-actions {
+  opacity: 1;
+}
+
+.task-actions .btn {
+  height: 28px;
+  min-width: 60px;
+  padding: 0 12px;
+  font-size: 12px;
+}
+
+/* 空状态样式 */
+.empty-state {
+  text-align: center;
+  padding: 32px 0;
+  color: rgba(0, 0, 0, 0.25);
+  background: #fafafa;
+  border-radius: 2px;
+  border: 1px dashed #f0f0f0;
+}
+
+/* 移动端导航按钮 */
+.mobile-nav-toggle {
+  display: none;
+  width: 100%;
+  height: 40px;
+  padding: 0 16px;
+  background: #fff;
+  color: #1890ff;
+  border: 1px solid #1890ff;
+  border-radius: 2px;
+  margin-bottom: 16px;
+  font-weight: 400;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+}
+
+.mobile-nav-toggle:hover {
+  color: #40a9ff;
+  border-color: #40a9ff;
+  background: #fff;
+}
+
+/* 银两显示样式优化 */
+.silver-display {
+  display: flex;
+  align-items: center;
+  height: 36px;
+  padding: 0;
+}
+
+.silver-left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.silver-icon {
+  color: #faad14;
+  font-size: 14px;
+}
+
+.silver-amount {
+  color: #faad14;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.silver-unit {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.45);
+  margin-left: 2px;
+}
+
+/* 银两编辑容器样式 */
+.silver-edit-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.silver-edit-input {
+  width: 80px;
+  height: 32px;
+  padding: 4px 8px;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  font-size: 14px;
+}
+
+/* 角色列表中的银两显示 */
+.role-item .silver-display {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 24px;
+}
+
+.role-item .silver-icon {
+  font-size: 14px;
+}
+
+.role-item .silver-amount {
+  color: #faad14;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.role-item .silver-unit {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.45);
+  margin-left: 2px;
+}
+
+.role-item .silver-right {
+  display: flex;
+  align-items: center;
+}
+
+/* 进度条样式优化 */
+.role-progress-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 24px;
+}
+
+.role-progress-bar {
+  flex: 1;
+  height: 6px;
+  background-color: #f0f0f0;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-value {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #1890ff 0%, #40a9ff 100%);
+  box-shadow: 0 0 10px rgba(24, 144, 255, 0.8);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.progress-value.completed {
+  background-color: #52c41a;
+  /* 使用绿色表示完成 */
+  box-shadow: 0 0 8px rgba(82, 196, 26, 0.5);
+  /* 添加发光效果 */
+}
+
+.role-progress-value {
+  font-size: 12px;
+  color: #1890ff;
+  font-weight: 500;
+  min-width: 40px;
+  text-align: right;
+}
+
+.role-progress-value.completed-text {
+  color: #52c41a;
+  font-weight: 600;
+}
+
+/* 标题容器样式 */
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title-left {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.title-left h1 {
+  font-size: 24px;
+  margin: 0;
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.title-left p {
+  margin: 0;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.45);
+  line-height: 1.6;
+  max-width: 580px;
+}
+
+.title-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.btn-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-group .btn {
+  margin: 0;
+}
+
+.reset-info {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.65);
+  line-height: 1.4;
+}
+
+.reset-info p {
+  margin: 0;
+}
+
+.reset-time {
+  color: #1890ff;
+  font-weight: 500;
+}
+
+.reset-days {
+  color: #ff4d4f;
+  font-weight: 500;
+}
+
+/* 职业选择样式 */
+.profession-selection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0;
+}
+
+.profession-option {
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 2px;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.profession-option:hover {
+  transform: translateY(-2px);
+}
+
+.profession-option.selected {
+  background: rgba(24, 144, 255, 0.1);
+}
+
+.profession-option.selected::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 2px solid #1890ff;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.profession-option.selected .profession-tag {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.profession-option:hover .profession-tag {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.form-control-wrapper {
+  position: relative;
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  font-size: 14px;
+  line-height: 1.5;
+  transition: all 0.3s;
+  height: 32px;
+  box-sizing: border-box;
+}
+
+.form-control:hover {
+  border-color: #40a9ff;
+}
+
+.form-control:focus {
+  border-color: #40a9ff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 100px;
+  height: auto;
+}
+
+.form-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.role-form-left {
+  flex: 1;
+}
+
+.role-form-right {
+  display: none;
+  flex: 1;
+}
+
+/* 表单标签和输入框左右布局 */
+.form-group-horizontal {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.form-group-horizontal label {
+  width: 100px;
+  flex-shrink: 0;
+  margin-bottom: 0;
+  margin-right: 16px;
+  line-height: 32px;
+}
+
+.form-group-horizontal .form-control-wrapper {
+  flex: 1;
+}
+
+.role-info-container {
+  flex: 1;
+}
+
+.role-name-description {
+  flex: 2;
+  text-align: right;
+  padding-right: 20px;
+}
+
+/* 表单头部样式 */
+.role-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.role-form-header .form-buttons {
+  margin-top: 0;
+}
+
+/* 标题统一样式 */
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  padding: 0;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+h1 {
+  font-size: 20px;
+  line-height: 28px;
+}
+
+h2 {
+  font-size: 18px;
+  line-height: 26px;
+}
+
+h3 {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+h4 {
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.module-title {
+  font-size: 16px;
+  line-height: 36px;
+  color: rgba(0, 0, 0, 0.85);
+  font-weight: 500;
+  height: 36px;
+}
+
+.category-header h4.module-title {
+  margin-bottom: 10px;
+}
+
+/* 任务类别样式 */
+.task-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.task-category {
+  min-width: 220px;
+  max-width: 220px;
+  flex: 1 0 220px;
+  padding: 10px;
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+}
+
+.category-items {
+  max-height: 180px;
+  min-height: 180px;
+  overflow-y: auto;
+  border-radius: 2px;
+  flex: 1;
+}
+
+/* 滚动条样式优化 */
+.task-categories::-webkit-scrollbar {
+  height: 6px;
+}
+
+.task-categories::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 2px;
+}
+
+.task-categories::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 2px;
+}
+
+.task-categories::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.category-header .btn-sm {
+  padding: 4px 12px;
+  font-size: 12px;
+  border: 1px solid #d9d9d9;
+  border-radius: 2px;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+/* 副本任务样式 */
+.dungeon-group {
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 2px;
+  padding: 12px;
+}
+
+.dungeon-group:last-child {
+  margin-bottom: 0;
+}
+
+.dungeon-group-header {
+  padding-bottom: 8px;
+}
+
+.dungeon-task-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dungeon-task-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 2px;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.dungeon-task-item:hover {
+  background: #f5f5f5;
+}
+
+.dungeon-task-item input[type="checkbox"] {
+  margin-right: 12px;
+}
+
+.dungeon-task-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.dungeon-task-content span:first-child {
+  color: rgba(0, 0, 0, 0.85);
+  font-size: 14px;
+}
+
+/* 预定义任务项样式 */
+.predefined-task-item {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 12px;
+  margin-bottom: 8px;
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.predefined-task-item:last-child {
+  margin-bottom: 0;
+}
+
+.predefined-task-item:hover {
+  background: #f5f5f5;
+  border-color: #d9d9d9;
+}
+
+.predefined-task-item input[type="checkbox"] {
+  margin-right: 12px;
+}
+
+/* 滚动条样式 */
+.category-items::-webkit-scrollbar {
+  width: 6px;
+}
+
+.category-items::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 2px;
+}
+
+.category-items::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 2px;
+}
+
+.category-items::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* 角色区域布局样式 */
+.role-section {
+  display: flex;
+  gap: 5px;
+  height: calc(100vh - 100px);
+  overflow: hidden;
+}
+
+.role-list.module-container {
+  width: 300px;
+  height: 100%;
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+.role-content {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.role-content .module-container {
+  margin-bottom: 0;
+}
+
+.role-header.module-container {
+  flex-shrink: 0;
+}
+
+.task-list.module-container {
+  flex: 1;
+  overflow-y: auto;
+  display: block;
+  /* 修改这里，默认显示 */
+  margin-bottom: 0;
+}
+
+/* 当显示表单时隐藏任务列表 */
+.show-task-form .task-list.module-container {
+  display: none;
+}
+
+.task-list .task-item {
+  margin-bottom: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.task-list .task-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  transform: translateX(5px);
+}
+
+.task-list .task-item:active {
+  background-color: rgba(0, 0, 0, 0.1);
+  transform: translateX(3px);
+}
+
+.task-list .task-item:last-child {
+  margin-bottom: 0;
+}
+
+.task-form-module {
+  flex: 1;
+  overflow-y: auto;
+  display: block;
+  margin-bottom: 0;
+}
+
+/* 当显示任务列表时 */
+.show-task-list .task-list.module-container {
+  display: block;
+}
+
+/* 当显示表单时 */
+.show-task-form .task-form-module {
+  display: block;
+}
+
+.show-task-form .task-list.module-container {
+  display: none;
+}
+
+.empty-state.module-container {
+  flex-shrink: 0;
+}
+
+.fixed-tasks .task-categories {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.fixed-tasks .task-category {
+  margin-bottom: 0;
+}
+
+.fixed-tasks .category-items {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+/* 其他任务保持原有布局 */
+.custom-tasks .task-categories {
+  display: block;
+}
+
+.custom-tasks .task-category {
+  margin-bottom: 16px;
+}
+
+.silver-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: #f5f5f5;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  color: #666;
+}
+
+.silver-amount-total {
+  font-weight: 500;
+  color: #ff4d4f;
+  font-size: 16px;
+}
+
+.silver-icon {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #666;
+  padding-right: 10px;
+}
+
+.role-info-right {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex-shrink: 0;
+  padding-left: 20px;
+}
+
+.role-info-left .role-name-container {
+  min-height: 36px;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.role-header-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.role-task-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.module-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.module-header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.module-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* 允许输入框和文本域可以复制 */
+input,
+textarea {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+/* 登录对话框样式 */
+.login-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.login-container {
+  background: white;
+  padding: 24px;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.login-header {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.login-header h2 {
+  font-size: 24px;
+  color: rgba(0, 0, 0, 0.85);
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.login-form-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.login-form-item label {
+  font-size: 14px;
+  width: 60px;
+  color: rgba(0, 0, 0, 0.85);
+  flex-shrink: 0;
+}
+
+.login-form-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.login-form-actions button {
+  flex: 1;
+}
+
+/* 登录提示样式 */
+.login-tips {
+  padding: 12px;
+  background: #f5f5f5;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.login-tip-item {
+  margin-bottom: 8px;
+  color: #333;
+  line-height: 1.5;
+}
+
+.login-tip-item:last-child {
+  margin-bottom: 0;
+}
+
+.tip-text {
+  color: #333;
+}
+
+.ant-card {
+  border-radius: 2px !important;
+}
+
+.ant-card-body {
+  padding: 1rem !important;
+}
+
+.ant-card-head {
+  min-height: 48px !important;
+  margin-bottom: 0 !important;
+  padding: 0 1rem !important;
+}
+
+.ant-btn {
+  border-radius: 2px !important;
+  /* min-width: 90px !important; */
+}
+
+.ant-tag {
+  margin-inline-end: 0 !important;
+}
+
+.ant-input,
+.ant-input-number,
+.ant-input-password {
+  border-radius: 2px !important;
+}
+
+.ant-typography {
+  margin-bottom: 0 !important;
+}
+
+.ant-progress-line {
+  margin-bottom: 0 !important;
+}
+
+.ant-checkbox-inner {
+  border-radius: 2px !important;
+}
+
+.ant-checkbox-wrapper {
+  border-radius: 2px !important;
+}
+
