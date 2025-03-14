@@ -37,3 +37,6 @@ pids
 # 数据库文件
 *.sqlite
 database.sqlite
+
+# 构建产物
+dist/
