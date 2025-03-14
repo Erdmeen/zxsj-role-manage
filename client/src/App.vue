@@ -1337,7 +1337,7 @@ body {
 }
 
 .role-info-left {
-  flex: 1;
+  flex: 1.5;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -1363,9 +1363,35 @@ body {
 }
 
 .role-info-right {
-  flex: 1;
+  flex: 2;
   border-left: 1px solid #f0f0f0;
   padding-left: 24px;
+  height: 100%;
+  max-height: 100px;
+  padding-right: 8px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 0;
+}
+
+.role-info-right::-webkit-scrollbar {
+  width: 6px;
+}
+
+.role-info-right::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.role-info-right::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 3px;
+}
+
+.role-info-right::-webkit-scrollbar-thumb:hover {
+  background: #999;
 }
 
 .role-description {
@@ -1373,6 +1399,7 @@ body {
   font-size: 14px;
   line-height: 1.6;
   color: rgba(0, 0, 0, 0.65);
+  white-space: pre-wrap;
 }
 
 .role-silver {
@@ -1442,5 +1469,4 @@ body {
   background: #999;
 }
 
-/* 删除所有职业相关的类样式 */
 </style>
