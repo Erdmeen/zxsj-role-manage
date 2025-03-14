@@ -14,8 +14,8 @@ html,
 body,
 #app,
 .app-container {
+  min-width: 1000px;
   height: 100%;
-  overflow: hidden;
 }
 
 body {
@@ -26,6 +26,7 @@ body {
   display: flex;
   flex-direction: column;
   overflow-x: auto;
+  min-width: 10px;
 }
 
 .container {

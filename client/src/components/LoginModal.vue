@@ -56,7 +56,6 @@ const loginForm = ref({
 });
 
 const handleLogin = () => {
-  debugger;
   if (!loginForm.value.username || !loginForm.value.password) {
     message.error('请输入用户名和密码');
     return;
