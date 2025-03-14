@@ -1366,14 +1366,11 @@ body {
   flex: 2;
   border-left: 1px solid #f0f0f0;
   padding-left: 24px;
-  height: 100%;
-  max-height: 100px;
+  height: 100px;
   padding-right: 8px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  min-height: 0;
-  height: 0;
 }
 
 .role-info-right::-webkit-scrollbar {

@@ -323,7 +323,6 @@ body {
   align-items: center;
   flex: 1;
   min-width: 0;
-  margin-right: 8px;
   overflow: hidden;
 }
 
@@ -1071,6 +1070,7 @@ h4 {
   gap: 8px;
   flex-shrink: 0;
   padding-left: 20px;
+  margin-right: -1rem;
 }
 
 .role-info-left .role-name-container {
