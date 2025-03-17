@@ -60,9 +60,6 @@ const daysUntilReset = computed(() => {
 </script>
 
 <style scoped>
-.header-card {
-  margin-bottom: 1rem;
-}
 
 .title-container {
   display: flex;

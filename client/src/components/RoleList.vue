@@ -4,11 +4,11 @@
     <div class="role-list-container">
       <template v-if="roles.length > 0">
         <div class="silver-summary">
-          <a-statistic title="总资产" :value="calculateTotalSilver" suffix="万两">
-            <template #prefix>
-              <span class="silver-icon">💰</span>
-            </template>
-          </a-statistic>
+          <span class="silver-icon">💰总资产</span>
+          <div class="silver-amount-total">
+            <span>{{ calculateTotalSilver }}</span>
+            <span class="silver-unit">万两</span>
+          </div>
         </div>
         <div class="role-list">
           <div
@@ -158,9 +158,6 @@ const getProfessionColor = (profession: string) => {
   justify-content: center;
 }
 
-.silver-icon {
-  font-size: 24px;
-}
 
 .silver-info-section {
   flex: 1;
@@ -254,7 +251,6 @@ const getProfessionColor = (profession: string) => {
 
 .silver-icon {
   flex-shrink: 0;
-  font-size: 12px;
 }
 .silver-amount-container{
   display: flex;
@@ -263,7 +259,6 @@ const getProfessionColor = (profession: string) => {
 }
 .silver-amount {
   font-weight: 500;
-  color: #1890ff;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

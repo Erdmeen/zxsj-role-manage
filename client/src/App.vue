@@ -16,6 +16,7 @@ interface Task {
   originalTask?: any;
   isEditing?: boolean;
   editName?: string;
+  order?: number;
 }
 
 interface Role {
@@ -1129,6 +1130,25 @@ const handleRestoreTask = (taskIndex: number, task: Task) => {
 // 添加处理任务重排序的方法
 const handleReorderTasks = (tasks: Task[]) => {
   if (currentRole.value) {
+    // 将任务分成已完成和未完成两组
+    const uncompletedTasks = tasks.filter(task => !task.completed);
+    const completedTasks = tasks.filter(task => task.completed);
+
+    // 更新未完成任务的自定义顺序
+    uncompletedTasks.forEach((task, index) => {
+      if (task.category === 'custom') {
+        task.order = index;
+      }
+    });
+
+    // 更新已完成任务的自定义顺序
+    completedTasks.forEach((task, index) => {
+      if (task.category === 'custom') {
+        task.order = uncompletedTasks.length + index;
+      }
+    });
+
+    // 更新任务列表
     currentRole.value.tasks = tasks;
     saveData();
   }
@@ -1192,7 +1212,7 @@ const handleReorderTasks = (tasks: Task[]) => {
                 </div>
                 <div class="role-info-left-bottom">
                   <div class="role-silver">
-                    <label>银两：</label>
+                    <label>背包银两：</label>
                     <a-input-number v-model:value="silverEditValue" @change="updateSilver" class="silver-input" :min="0"
                     :step="1" />
                     <span class="silver-unit">万两</span>
@@ -1251,6 +1271,7 @@ body {
   height: 100vh;
   padding: 1rem;
   box-sizing: border-box;
+  gap: 5px;
 }
 
 .main-content {
@@ -1269,7 +1290,7 @@ body {
 /* 角色管理区域 */
 .role-management {
   display: flex;
-  gap: 1rem;
+  gap: 5px;
   flex: 1;
   min-height: 0;
 }
@@ -1306,7 +1327,7 @@ body {
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 5px;
   overflow: hidden;
 }
 

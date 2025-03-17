@@ -19,6 +19,7 @@
           handle=".drag-handle"
           :animation="150"
           item-key="id"
+          :disabled="true"
         >
           <template #item="{ element: task }">
             <div class="task-item" @click.stop="handleTaskClick(task, $event)">
@@ -36,16 +37,12 @@
                   />
                 </template>
                 <template v-else>
-                  <a-checkbox 
-                    :checked="task.completed" 
-                    @click.stop="handleCheckboxClick(task)"
-                  >
+                  <div class="task-content">
+                    <input type="checkbox" class="task-checkbox" :checked="task.completed">
+                    <a-tag :color="getCategoryColor(task.category)">{{ getCategoryText(task.category) }}</a-tag>
                     <span :class="{ completed: task.completed }">{{ task.name }}</span>
-                  </a-checkbox>
+                  </div>
                 </template>
-                <div class="task-tags">
-                  <a-tag :color="getCategoryColor(task.category)">{{ getCategoryText(task.category) }}</a-tag>
-                </div>
               </div>
               <div class="task-actions">
                 <template v-if="editingTaskId === task.id">
@@ -384,6 +381,7 @@ const handleCheckboxClick = (task: Task) => {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+  margin-right: 1rem;
 }
 
 .task-actions {
