@@ -113,6 +113,7 @@ interface Task {
 
 const props = defineProps<{
   tasks: Task[];
+  isSorting?: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -121,10 +122,16 @@ const emit = defineEmits<{
   'delete': [index: number];
   'restore': [index: number, task: Task];
   'reorder': [tasks: Task[]];
+  'update:isSorting': [value: boolean];
 }>();
 
 // 添加排序状态
-const isSorting = ref(false);
+const localIsSorting = computed({
+  get: () => props.isSorting ?? false,
+  set: (value) => {
+    emit('update:isSorting', value);
+  }
+});
 
 // 添加临时排序状态
 const tempTaskList = ref<Task[]>([]);
@@ -132,7 +139,7 @@ const tempTaskList = ref<Task[]>([]);
 // 修改拖拽相关的计算属性
 const taskList = computed({
   get: () => {
-    if (isSorting.value) {
+    if (localIsSorting.value) {
       // 排序模式下，直接使用临时列表，不区分完成状态
       return tempTaskList.value;
     } else {
@@ -162,7 +169,7 @@ const taskList = computed({
     }
   },
   set: (value) => {
-    if (!isSorting.value) return;
+    if (!localIsSorting.value) return;
     // 排序模式下，更新临时列表
     tempTaskList.value = value;
   }
@@ -170,7 +177,7 @@ const taskList = computed({
 
 // 切换排序状态
 const toggleSorting = () => {
-  if (!isSorting.value) {
+  if (!localIsSorting.value) {
     // 进入排序模式时，初始化临时列表，保持原有顺序
     tempTaskList.value = [...props.tasks].sort((a, b) => {
       if (a.order !== undefined && b.order !== undefined) {
@@ -186,7 +193,7 @@ const toggleSorting = () => {
     }));
     emit('reorder', updatedTasks);
   }
-  isSorting.value = !isSorting.value;
+  localIsSorting.value = !localIsSorting.value;
 };
 
 // 添加撤回相关的状态
@@ -199,7 +206,7 @@ interface DeletedTask {
 const deletedTasks = ref<DeletedTask[]>([]);
 
 const handleTaskClick = (task: Task, event: Event) => {
-  if (isSorting.value) return;
+  if (localIsSorting.value) return;
   // 如果点击的是按钮、输入框、复选框或其子元素，不处理点击事件
   const target = event.target as HTMLElement;
   if (

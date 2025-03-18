@@ -527,7 +527,15 @@ const handleAddRole = (roleData: Role) => {
   showAddRoleForm.value = false; // 关闭添加角色表单
 };
 
+// 添加排序状态的 ref
+const isSorting = ref(false);
+
 const handleSelectRole = (index: number) => {
+  // 如果正在排序，先退出排序状态
+  if (isSorting.value) {
+    isSorting.value = false;
+  }
+
   currentRoleIndex.value = index;
   if (roles.value[index] && roles.value[index].silver !== undefined) {
     silverEditValue.value = roles.value[index].silver;
@@ -1227,10 +1235,16 @@ const handleReorderTasks = (tasks: Task[]) => {
                 @cancel="handleCancelTaskForm" 
                 @addSelectedTasks="handleAddSelectedTasks"
                 @addCustomTask="handleAddCustomTask" />
-              <TaskList v-else :tasks="currentRole.tasks" @edit="editTask"
-                @toggle="handleToggleTaskStatus" @startInlineEdit="handleStartInlineEdit"
-                @saveInlineEdit="handleSaveInlineEdit" @cancelInlineEdit="handleCancelInlineEdit"
-                @delete="handleDeleteTask" @restore="handleRestoreTask" @reorder="handleReorderTasks" />
+              <TaskList v-else :tasks="currentRole.tasks" 
+                v-model:isSorting="isSorting"
+                @edit="editTask"
+                @toggle="handleToggleTaskStatus" 
+                @startInlineEdit="handleStartInlineEdit"
+                @saveInlineEdit="handleSaveInlineEdit" 
+                @cancelInlineEdit="handleCancelInlineEdit"
+                @delete="handleDeleteTask" 
+                @restore="handleRestoreTask" 
+                @reorder="handleReorderTasks" />
             </div>
           </div>
         </div>
