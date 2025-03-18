@@ -12,11 +12,3 @@ app.mount('#app')
 document.addEventListener('contextmenu', function (e) {
     e.preventDefault();
 });
-
-// 禁止键盘快捷键
-document.addEventListener('keydown', function (e) {
-    // 禁止 Ctrl+C, Ctrl+V, Ctrl+X
-    if (e.ctrlKey && (e.key === "c" || e.key === "v" || e.key === "x")) {
-        e.preventDefault();
-    }
-});

@@ -1006,13 +1006,13 @@ const cancelEditRole = () => {
   showEditRoleForm.value = false;
 };
 
-// 添加更新银两的方法
-const updateSilver = () => {
+// 添加更新银两的方法 防抖
+const updateSilver = debounce(() => {
   if (currentRole.value) {
     currentRole.value.silver = Number(silverEditValue.value) || 0;
     saveData();
   }
-};
+}, 500);
 
 // 导出数据
 const exportData = () => {
