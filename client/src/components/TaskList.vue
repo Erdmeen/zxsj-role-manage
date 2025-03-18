@@ -3,12 +3,23 @@
     <template #title>
       <div class="list-header">
         <span>任务列表</span>
-        <a-button type="primary" @click="$emit('edit', -1)" v-if="tasks.length > 0">
-          编辑任务
-        </a-button>
-        <a-button type="primary" @click="$emit('edit', -1)" v-if="tasks.length === 0">
-          新增任务
-        </a-button>
+        <div class="task-list-header-actions">
+          <template v-if="tasks.length > 0">
+            <a-button 
+              :type="isSorting ? 'primary' : 'default'" 
+              @click="toggleSorting"
+              :danger="isSorting"
+            >
+              {{ isSorting ? '完成排序' : '开始排序' }}
+            </a-button>
+            <a-button type="primary" @click="$emit('edit', -1)" v-if="!isSorting">
+              编辑任务
+            </a-button>
+          </template>
+          <a-button type="primary" @click="$emit('edit', -1)" v-if="tasks.length === 0">
+            新增任务
+          </a-button>
+        </div>
       </div>
     </template>
     <div class="task-list-container">
@@ -16,16 +27,23 @@
         <VueDraggable 
           v-model="taskList"
           class="task-list"
-          handle=".drag-handle"
+          handle=".task-item"
           :animation="150"
           item-key="id"
-          :disabled="true"
+          :disabled="!isSorting"
         >
           <template #item="{ element: task }">
-            <div class="task-item" @click.stop="handleTaskClick(task, $event)">
+            <div 
+              class="task-item" 
+              :class="{ 'sortable': isSorting }"
+              @click.stop="handleTaskClick(task, $event)"
+            >
               <div class="task-content">
-                <div class="drag-handle">
-                  <MenuOutlined />
+                <div class="drag-handle" v-if="isSorting">
+                  <MenuOutlined style="font-size: 16px;" />
+                </div>
+                <div class="checkbox-wrapper" v-if="!isSorting">
+                  <input type="checkbox" class="task-checkbox" :checked="task.completed">
                 </div>
                 <template v-if="editingTaskId === task.id">
                   <a-input
@@ -38,13 +56,12 @@
                 </template>
                 <template v-else>
                   <div class="task-content">
-                    <input type="checkbox" class="task-checkbox" :checked="task.completed">
                     <a-tag :color="getCategoryColor(task.category)">{{ getCategoryText(task.category) }}</a-tag>
                     <span :class="{ completed: task.completed }">{{ task.name }}</span>
                   </div>
                 </template>
               </div>
-              <div class="task-actions">
+              <div class="task-actions" v-if="!isSorting">
                 <template v-if="editingTaskId === task.id">
                   <a-button type="text" @mousedown.stop.prevent="handleSaveEdit(task)">
                     <template #icon><CheckOutlined /></template>
@@ -75,7 +92,7 @@
 
 <script setup lang="ts">
 import { computed, ref, h, nextTick } from 'vue';
-import { EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined, MenuOutlined } from '@ant-design/icons-vue';
+import { EditOutlined, DeleteOutlined, CheckOutlined, CloseOutlined, MenuOutlined, DragOutlined } from '@ant-design/icons-vue';
 import { notification, Button } from 'ant-design-vue';
 import VueDraggable from 'vuedraggable';
 
@@ -106,53 +123,71 @@ const emit = defineEmits<{
   'reorder': [tasks: Task[]];
 }>();
 
-// 添加拖拽相关的计算属性
+// 添加排序状态
+const isSorting = ref(false);
+
+// 添加临时排序状态
+const tempTaskList = ref<Task[]>([]);
+
+// 修改拖拽相关的计算属性
 const taskList = computed({
   get: () => {
-    const tasks = [...props.tasks];
-    // 将任务分成已完成和未完成两组
-    const uncompletedTasks = tasks.filter(task => !task.completed);
-    const completedTasks = tasks.filter(task => task.completed);
+    if (isSorting.value) {
+      // 排序模式下，直接使用临时列表，不区分完成状态
+      return tempTaskList.value;
+    } else {
+      // 非排序模式下，按照完成状态和排序字段分组
+      const tasks = [...props.tasks];
+      const uncompletedTasks = tasks.filter(task => !task.completed);
+      const completedTasks = tasks.filter(task => task.completed);
 
-    // 对未完成任务按照 order 排序
-    uncompletedTasks.sort((a, b) => {
-      if (a.order !== undefined && b.order !== undefined) {
-        return a.order - b.order;
-      }
-      return 0;
-    });
+      // 对未完成任务按照 order 排序
+      uncompletedTasks.sort((a, b) => {
+        if (a.order !== undefined && b.order !== undefined) {
+          return a.order - b.order;
+        }
+        return 0;
+      });
 
-    // 对已完成任务按照 order 排序
-    completedTasks.sort((a, b) => {
-      if (a.order !== undefined && b.order !== undefined) {
-        return a.order - b.order;
-      }
-      return 0;
-    });
+      // 对已完成任务按照 order 排序
+      completedTasks.sort((a, b) => {
+        if (a.order !== undefined && b.order !== undefined) {
+          return a.order - b.order;
+        }
+        return 0;
+      });
 
-    // 合并两组任务，已完成的任务始终在后面
-    return [...uncompletedTasks, ...completedTasks];
+      // 未完成任务在前，已完成任务在后
+      return [...uncompletedTasks, ...completedTasks];
+    }
   },
   set: (value) => {
-    // 更新任务顺序时，保持已完成/未完成任务的分组
-    const uncompletedTasks = value.filter(task => !task.completed);
-    const completedTasks = value.filter(task => task.completed);
-
-    // 分别给两组任务设置 order
-    const updatedTasks = [
-      ...uncompletedTasks.map((task, index) => ({
-        ...task,
-        order: index
-      })),
-      ...completedTasks.map((task, index) => ({
-        ...task,
-        order: uncompletedTasks.length + index
-      }))
-    ];
-
-    emit('reorder', updatedTasks);
+    if (!isSorting.value) return;
+    // 排序模式下，更新临时列表
+    tempTaskList.value = value;
   }
 });
+
+// 切换排序状态
+const toggleSorting = () => {
+  if (!isSorting.value) {
+    // 进入排序模式时，初始化临时列表，保持原有顺序
+    tempTaskList.value = [...props.tasks].sort((a, b) => {
+      if (a.order !== undefined && b.order !== undefined) {
+        return a.order - b.order;
+      }
+      return 0;
+    });
+  } else {
+    // 退出排序模式时，保存当前顺序
+    const updatedTasks = tempTaskList.value.map((task, index) => ({
+      ...task,
+      order: index
+    }));
+    emit('reorder', updatedTasks);
+  }
+  isSorting.value = !isSorting.value;
+};
 
 // 添加撤回相关的状态
 interface DeletedTask {
@@ -164,17 +199,18 @@ interface DeletedTask {
 const deletedTasks = ref<DeletedTask[]>([]);
 
 const handleTaskClick = (task: Task, event: Event) => {
+  if (isSorting.value) return;
   // 如果点击的是按钮、输入框、复选框或其子元素，不处理点击事件
   const target = event.target as HTMLElement;
   if (
-    target.closest('.task-actions') || 
-    target.closest('.ant-checkbox') || 
+    target.closest('.task-actions') ||
+    target.closest('.ant-checkbox') ||
     target.closest('.ant-input') ||
     editingTaskId.value === task.id
   ) {
     return;
   }
-  
+
   const index = getOriginalIndex(task);
   if (index !== -1) {
     emit('toggle', index);
@@ -259,7 +295,7 @@ const handleUndoDelete = (key: string) => {
   if (deletedTask) {
     // 发出恢复事件
     emit('restore', deletedTask.index, deletedTask.task);
-    
+
     // 从数组中移除该任务
     deletedTasks.value = deletedTasks.value.filter(item => item.key !== key);
   }
@@ -361,6 +397,11 @@ const handleCheckboxClick = (task: Task) => {
   flex-shrink: 0;
 }
 
+.task-list-header-actions {
+  display: flex;
+  gap: 8px;
+}
+
 .task-content {
   flex: 1;
   display: flex;
@@ -375,6 +416,11 @@ const handleCheckboxClick = (task: Task) => {
 .completed {
   text-decoration: line-through;
   color: rgba(0, 0, 0, 0.45);
+}
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
 }
 
 .task-tags {
@@ -414,12 +460,14 @@ const handleCheckboxClick = (task: Task) => {
 }
 
 .task-item {
+  height: 50px;
   display: flex;
   align-items: center;
   padding: 8px;
   border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.2s;
+  /* transition: all 0.2s;
+  background-color: #fff; */
 }
 
 .task-item:hover {
@@ -499,16 +547,4 @@ const handleCheckboxClick = (task: Task) => {
   }
 
 }
-
-.drag-handle {
-  cursor: move;
-  padding: 0 8px;
-  color: #999;
-  display: flex;
-  align-items: center;
-}
-
-.drag-handle:hover {
-  color: #666;
-}
-</style> 
+</style>

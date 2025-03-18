@@ -13,10 +13,16 @@ interface Task {
   name: string;
   completed: boolean;
   category: string;
-  originalTask?: any;
+  order?: number;
+  size?: number;
+  difficulty?: string;
+  originalTask?: {
+    name: string;
+    size?: number;
+    difficulty?: 'hard' | 'nightmare';
+  };
   isEditing?: boolean;
   editName?: string;
-  order?: number;
 }
 
 interface Role {
@@ -323,45 +329,28 @@ const currentRole = computed(() => {
 const sortedTasks = computed(() => {
   if (!currentRole.value || !currentRole.value.tasks) return [];
 
-  // 按照分类顺序排序：副本、帮派、世界、其他、活力、自定义
-  const categoryOrder = {
-    dungeon: 1,
-    guild: 2,
-    world: 3,
-    other: 4,
-    vitality: 5,
-    activity: 6,
-    custom: 7,
-  };
+  const tasks = [...currentRole.value.tasks] as Task[];
+  const uncompletedTasks = tasks.filter(task => !task.completed);
+  const completedTasks = tasks.filter(task => task.completed);
 
-  return [...currentRole.value.tasks].sort((a, b) => {
-    // 首先按照完成状态排序（未完成的在前，已完成的在后）
-    if (a.completed !== b.completed) {
-      return a.completed ? 1 : -1;
+  // 对未完成任务按照 order 排序
+  uncompletedTasks.sort((a, b) => {
+    if (a.order !== undefined && b.order !== undefined) {
+      return a.order - b.order;
     }
-
-    // 然后按照分类顺序排序
-    if (a.category !== b.category) {
-      return categoryOrder[a.category] - categoryOrder[b.category];
-    }
-
-    // 如果是副本任务，按照人数和难度排序
-    if (a.category === 'dungeon' && b.category === 'dungeon') {
-      // 首先按人数排序
-      if (a.originalTask.size !== b.originalTask.size) {
-        return a.originalTask.size - b.originalTask.size;
-      }
-      // 人数相同时，按难度排序（困难在前，噩梦在后）
-      if (a.originalTask.difficulty !== b.originalTask.difficulty) {
-        return a.originalTask.difficulty === 'hard' ? -1 : 1;
-      }
-      // 难度相同时，按名称排序
-      return a.name.localeCompare(b.name);
-    }
-
-    // 其他类型的任务按名称排序
-    return a.name.localeCompare(b.name);
+    return 0;
   });
+
+  // 对已完成任务按照 order 排序
+  completedTasks.sort((a, b) => {
+    if (a.order !== undefined && b.order !== undefined) {
+      return a.order - b.order;
+    }
+    return 0;
+  });
+
+  // 未完成任务在前，已完成任务在后
+  return [...uncompletedTasks, ...completedTasks];
 });
 
 // 按人数排序的副本任务
