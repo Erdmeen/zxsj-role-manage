@@ -10,7 +10,7 @@
               @click="toggleSorting"
               :danger="isSorting"
             >
-              {{ isSorting ? '完成排序' : '开始排序' }}
+              {{ isSorting ? '完成排序' : '任务排序' }}
             </a-button>
             <a-button type="primary" @click="$emit('edit', -1)" v-if="!isSorting">
               编辑任务
