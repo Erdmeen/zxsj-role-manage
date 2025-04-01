@@ -10,5 +10,8 @@ app.mount('#app')
 
 // 禁止右键菜单
 document.addEventListener('contextmenu', function (e) {
-    e.preventDefault();
+    const isDev = import.meta.env.DEV;
+    if (!isDev) {
+        e.preventDefault();
+    }
 });

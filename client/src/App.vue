@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue';
 import LoginModal from './components/LoginModal.vue';
+import ThroatModal from './components/ThroatModal.vue';
 import Header from './components/Header.vue';
 import RoleForm from './components/RoleForm.vue';
 import RoleList from './components/RoleList.vue';
@@ -69,6 +70,7 @@ const debounce = (fn: Function, delay: number) => {
 const isLoggedIn = ref(false);
 const token = ref('');
 const showLoginModal = ref(false);
+const showThroatModal = ref(false);
 const loginForm = ref({
   username: '',
   password: ''
@@ -1150,15 +1152,20 @@ const handleReorderTasks = (tasks: Task[]) => {
     saveData();
   }
 };
+
+const calculateThroat = () => {
+  console.log('锁喉计算');
+};
 </script>
 
 <template>
   <div class="app-container">
     <LoginModal v-model:showLoginModal="showLoginModal" @login="handleLogin" />
+    <ThroatModal v-model:showThroatModal="showThroatModal" />
 
     <Header :isLoggedIn="isLoggedIn" :showAddRoleForm="showAddRoleForm" @login="showLoginModal = true"
       @addRole="openAddRoleForm" @cancelAddRole="showAddRoleForm = false" @exportData="exportData"
-      @importData="importData" />
+      @importData="importData" @calculate-throat="showThroatModal = true" />
 
     <div class="main-content">
       <a-card v-if="showAddRoleForm" class="add-role-section">
