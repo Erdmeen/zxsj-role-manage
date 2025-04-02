@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import { message } from 'ant-design-vue';
-import { PlusOutlined } from '@ant-design/icons-vue';
+import { PlusOutlined, CopyOutlined } from '@ant-design/icons-vue';
 
 const props = defineProps<{
     showThroatModal: boolean
@@ -95,10 +95,10 @@ const deleteOption = (index: number) => {
 
 // 添加新选项
 const addNewOption = () => {
-    const newItem = { 
-        label: '新商品', 
-        value: 0, 
-        updateTime: new Date().toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' }) 
+    const newItem = {
+        label: '新商品',
+        value: 0,
+        updateTime: new Date().toLocaleString('zh-CN', { month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
     };
     editingItem.value = newItem;
     editingIndex.value = marketPriceOptions.value.length;
@@ -293,11 +293,13 @@ const handleInputChange = (value: number | null) => {
                                 <li>最优出价：<span class="highlight-bid copyable"
                                         @click="copyToClipboard(aggressiveMinBid.toString())">{{
                                             aggressiveMinBid.toLocaleString()
-                                        }}</span></li>
+                                        }}
+                                        <CopyOutlined />
+                                    </span></li>
                                 <li>最终收益：{{ aggressiveMinBidProfit.toLocaleString() }}</li>
                                 <li>团队分成：{{ aggressiveMinBidShare.toLocaleString() }}</li>
                                 <li>超额收益：<span class="highlight-profit">{{ aggressiveExtraProfit.toLocaleString()
-                                        }}</span></li>
+                                }}</span></li>
                             </ul>
                         </a-typography-paragraph>
                     </div>
@@ -308,11 +310,14 @@ const handleInputChange = (value: number | null) => {
                                 <li>税后价格：<span class="highlight-price">{{ actualValue.toLocaleString() }}</span></li>
                                 <li>最优出价：<span class="highlight-bid copyable"
                                         @click="copyToClipboard(conservativeMinBid.toString())">{{
-                                            conservativeMinBid.toLocaleString() }}</span></li>
+                                            conservativeMinBid.toLocaleString() }}
+                                        <CopyOutlined />
+                                    </span>
+                                </li>
                                 <li>最终收益：{{ conservativeMinBidProfit.toLocaleString() }}</li>
                                 <li>团队分成：{{ conservativeMinBidShare.toLocaleString() }}</li>
                                 <li>超额收益：<span class="highlight-profit">{{ conservativeExtraProfit.toLocaleString()
-                                        }}</span>
+                                }}</span>
                                 </li>
                             </ul>
                         </a-typography-paragraph>
@@ -356,7 +361,7 @@ const handleInputChange = (value: number | null) => {
                     </div>
                 </div>
             </div>
-            
+
             <a-divider v-if="marketPriceOptions.length > 0" />
 
             <a-typography-paragraph>
@@ -391,7 +396,7 @@ const handleInputChange = (value: number | null) => {
 }
 
 .highlight-bid {
-    color: #1890ff;
+    color: #ff4d4f;
     font-weight: bold;
 }
 
@@ -430,7 +435,7 @@ li {
 }
 
 .highlight-price {
-    color: #722ed1;
+    color: #1890ff;
     font-weight: bold;
 }
 
