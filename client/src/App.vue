@@ -1153,9 +1153,6 @@ const handleReorderTasks = (tasks: Task[]) => {
   }
 };
 
-const calculateThroat = () => {
-  console.log('锁喉计算');
-};
 </script>
 
 <template>

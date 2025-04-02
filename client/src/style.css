@@ -1226,7 +1226,8 @@ textarea {
 
 .ant-input,
 .ant-input-number,
-.ant-input-password {
+.ant-input-password,
+.ant-select-selector {
   border-radius: 2px !important;
 }
 

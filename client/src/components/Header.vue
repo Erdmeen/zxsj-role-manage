@@ -13,7 +13,7 @@
         <a-space direction="vertical" :size="8">
           <a-space>
             <a-button type="dashed" @click="$emit('login')" v-if="!isLoggedIn">登录同步</a-button>
-            <a-button type="dashed" @click="$emit('calculate-throat')" v-if="isLoggedIn">锁喉计算</a-button>
+            <a-button type="dashed" @click="$emit('calculate-throat')" v-if="isLoggedIn">拍卖计算</a-button>
             <a-button @click="$emit('exportData')">导出数据</a-button>
           </a-space>
           <a-space>
